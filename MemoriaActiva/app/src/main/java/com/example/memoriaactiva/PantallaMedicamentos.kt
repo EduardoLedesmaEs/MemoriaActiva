@@ -27,6 +27,9 @@ fun PantallaMedicamentos(miViewModel: MedicamentosViewModel = viewModel()) {
     var nombreInput by remember { mutableStateOf("") }
     var horaInput by remember { mutableStateOf("Seleccionar hora") }
 
+    // Observamos el StateFlow del ViewModel
+    val listaMedicamentos by miViewModel.listaMedicamentos.collectAsState()
+
     // Lógica del Reloj
     val calendario = Calendar.getInstance()
     val timePickerDialog = TimePickerDialog(
@@ -82,9 +85,9 @@ fun PantallaMedicamentos(miViewModel: MedicamentosViewModel = viewModel()) {
             Text("AGREGAR MEDICAMENTO")
         }
 
-        // Aquí filtramos la lista que viene del ViewModel
-        val pendientes = miViewModel.listaMedicamentos.filter { !it.tomado }
-        val completadas = miViewModel.listaMedicamentos.filter { it.tomado }
+        // Filtramos la lista ya colectada
+        val pendientes = listaMedicamentos.filter { !it.tomado }
+        val completadas = listaMedicamentos.filter { it.tomado }
 
         LazyColumn(
             modifier = Modifier.weight(1f),
