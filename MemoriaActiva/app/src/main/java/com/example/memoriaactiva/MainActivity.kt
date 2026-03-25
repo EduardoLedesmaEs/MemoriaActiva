@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 object Rutas {
     const val INICIO = "inicio"
     const val MEDICAMENTOS = "medicamentos"
+    const val CITAS = "citas"
 }
 
 class MainActivity : ComponentActivity() {
@@ -39,12 +40,16 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = Rutas.INICIO) {
                     composable(Rutas.INICIO) {
-                        PantallaInicio(onNavegarAMedicamentos = {
-                            navController.navigate(Rutas.MEDICAMENTOS)
-                        })
+                        PantallaInicio(
+                            onNavegarAMedicamentos = { navController.navigate(Rutas.MEDICAMENTOS) },
+                            onNavegarACitas = { navController.navigate(Rutas.CITAS) }
+                        )
                     }
                     composable(Rutas.MEDICAMENTOS) {
                         PantallaMedicamentos()
+                    }
+                    composable(Rutas.CITAS) {
+                        PantallaCitas()
                     }
                 }
             }
@@ -53,7 +58,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun PantallaInicio(onNavegarAMedicamentos: () -> Unit) {
+fun PantallaInicio(onNavegarAMedicamentos: () -> Unit, onNavegarACitas: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +80,9 @@ fun PantallaInicio(onNavegarAMedicamentos: () -> Unit) {
         }
 
         // Botón 2: Citas
-        BotonGigante("CITAS MÉDICAS", Color(0xFF2E8B57)) {}
+        BotonGigante("CITAS MÉDICAS", Color(0xFF2E8B57)) {
+            onNavegarACitas()
+        }
 
         // Botón 3: Checklist
         BotonGigante("¿SALES DE CASA?", Color(0xFFD2691E)) {}
@@ -96,13 +103,5 @@ fun BotonGigante(texto: String, colorFondo: Color, onClick: () -> Unit) {
         colors = ButtonDefaults.buttonColors(containerColor = colorFondo)
     ) {
         Text(text = texto, fontSize = 22.sp, fontWeight = FontWeight.Bold)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MaterialTheme {
-        PantallaInicio(onNavegarAMedicamentos = {})
     }
 }
