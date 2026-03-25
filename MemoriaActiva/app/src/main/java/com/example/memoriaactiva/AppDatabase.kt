@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Medicamento::class], version = 1)
+@Database(entities = [Medicamento::class, Cita::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun medicamentoDao(): MedicamentoDao
+    abstract fun citaDao(): CitaDao
 
     companion object {
         @Volatile
@@ -19,7 +20,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "memoria_activa_db"
-                ).build()
+                )
+                .fallbackToDestructiveMigration() // Útil durante el desarrollo para evitar crashes al cambiar la DB
+                .build()
                 INSTANCE = instance
                 instance
             }
