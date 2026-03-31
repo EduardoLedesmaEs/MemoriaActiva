@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.memoriaactiva"
-    compileSdk = 35 // Cambiado a 35 (Estable), 36 aún no es estándar
+    compileSdk = 36 // Cambiado a 35 (Estable), 36 aún no es estándar
 
     defaultConfig {
         applicationId = "com.example.memoriaactiva"
